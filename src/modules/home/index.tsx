@@ -1,5 +1,5 @@
 import React from "react";
 
 export const HomeModule = () => {
-  return <div>index</div>;
+  return <div className="pt-20">index</div>;
 };

@@ -1,4 +1,4 @@
-import { LoginModule } from "@/modules/loginModule";
+import { LoginModule } from "@/modules/login";
 
 export default function Login() {
   return <LoginModule />;

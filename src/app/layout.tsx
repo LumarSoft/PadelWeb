@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import NavbarComponent from "@/shared/components/navbar/NavbarComponent";
 import { ChangeTheme } from "@/shared/services/ChangeMode";
 
 const fontSans = FontSans({
@@ -17,21 +16,16 @@ export const metadata: Metadata = {
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <body
         className={cn(
-          `min-h-screen bg-background font-sans antialiased transition-all duration-200`,
+          `bg-background font-sans antialiased transition-all duration-200`,
           fontSans.variable
         )}
       >
-        <NavbarComponent />
-        <main className="px-4 md:px-10 pt-20">
-          {children}
-        </main>
+        {children}
         <ChangeTheme />
       </body>
     </html>

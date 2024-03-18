@@ -2,11 +2,11 @@
 import { Switch } from "@/components/ui/switch";
 import { useStoreMode } from "@/shared/context/StoreMode";
 
-const DarkModeSwitch = () => {
+const DarkModeSwitch = ({ style }: { style: string }) => {
   const { setMode, mode } = useStoreMode();
   return (
     <Switch
-      className=""
+      className={style}
       onCheckedChange={() => setMode()}
       checked={mode === "dark" ? false : true}
     />

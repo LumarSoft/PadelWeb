@@ -8,7 +8,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { GiHamburgerMenu } from "react-icons/gi";
-import DarkModeSwitch from "./DarkModeSwitch";
+import DarkModeSwitch from "../switchMode/DarkModeSwitch";
 import Link from "next/link";
 import { useRouterHelper } from "@/shared/hooks/useRouterHelper";
 
