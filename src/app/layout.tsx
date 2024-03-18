@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Inter as FontSans } from "next/font/google";
 import "./globals.css";
 import { cn } from "@/lib/utils";
-import { NavbarComponent } from "@/shared/components/navbar/NavbarComponent";
+import NavbarComponent from "@/shared/components/navbar/NavbarComponent";
 import { ChangeTheme } from "@/shared/services/ChangeMode";
 
 const fontSans = FontSans({
@@ -29,7 +29,9 @@ export default function RootLayout({
         )}
       >
         <NavbarComponent />
-        {children}
+        <main className="px-4 md:px-10 pt-20">
+          {children}
+        </main>
         <ChangeTheme />
       </body>
     </html>

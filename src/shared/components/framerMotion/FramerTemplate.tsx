@@ -1,20 +1,22 @@
 "use client";
 import { motion } from "framer-motion";
 
-const variants = {
-  hidden: { opacity: 0, x: -200, y: 0 },
-  enter: { opacity: 1, x: 0, y: 0 },
-};
+interface TemplateProps {
+  children: React.ReactNode;
+  style: string;
+  initial?: { opacity?: number; y?: number };
+  animate?: { opacity?: number; y?: number };
+}
 
-export default function Template({ children }: { children: React.ReactNode }) {
+export default function TemplateFramer({
+  children,
+  style,
+  initial,
+  animate,
+}: TemplateProps) {
   return (
-    <motion.main
-      variants={variants}
-      initial="hidden"
-      animate="enter"
-      transition={{ type: "linear" }}
-    >
+    <motion.div initial={initial} animate={animate} className={style}>
       {children}
-    </motion.main>
+    </motion.div>
   );
 }

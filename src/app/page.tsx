@@ -1,9 +1,9 @@
-import Template from "@/shared/components/framerMotion/FramerTemplate";
+import TemplateFramer from "@/shared/components/framerMotion/FramerTemplate";
 
 export default function Home() {
   return (
-    <Template>
-      <span>asd</span>
-    </Template>
+    <TemplateFramer style="w-full flex items-center justify-center bg-red-500 ">
+      <div></div>
+    </TemplateFramer>
   );
 }
