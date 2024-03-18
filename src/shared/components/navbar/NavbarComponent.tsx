@@ -1,6 +1,10 @@
 import React from "react";
 import Image from "next/image";
-import { LavalleLogo } from "@/shared/providers/ImageLocalProvider";
+import {
+  LavalleLogo,
+  instagramLogo,
+  whatsappLogo,
+} from "@/shared/providers/ImageLocalProvider";
 import DarkModeSwitch from "./DarkModeSwitch";
 import { Categories, MobileDropdownMenu } from "./LinksNavbar";
 import TemplateFramer from "../framerMotion/FramerTemplate";
@@ -15,7 +19,13 @@ const NavbarComponent = () => {
       <Image src={LavalleLogo} alt="Lavalle Padel" width={60} height={60} />
       <Categories />
       <MobileDropdownMenu />
-      <div className="hidden md:block">
+      <div className="hidden md:flex items-center gap-4">
+        <Image
+          src={instagramLogo}
+          alt="Instagram de Lavalle Padel"
+          width={40}
+        />
+        <Image src={whatsappLogo} alt="Whatsapp de Lavalle Padel" width={40} />
         <DarkModeSwitch />
       </div>
     </TemplateFramer>
