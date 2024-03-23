@@ -31,6 +31,10 @@ export const ROUTES: IRoute[] = [
     path: ERoutes.LOGIN,
   },
   {
+    name: "Registro",
+    path: ERoutes.REGISTRO,
+  },
+  {
     name: "Reserva",
     path: ERoutes.RESERVA,
   },

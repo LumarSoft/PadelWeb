@@ -26,7 +26,7 @@ const NavbarComponent = () => {
           width={40}
         />
         <Image src={whatsappLogo} alt="Whatsapp de Lavalle Padel" width={40} />
-        <DarkModeSwitch />
+        <DarkModeSwitch style=""/>
       </div>
     </TemplateFramer>
   );

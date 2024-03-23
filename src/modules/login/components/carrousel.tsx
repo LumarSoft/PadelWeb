@@ -23,7 +23,7 @@ export function CarouselPlugin() {
 
   return (
     <Carousel
-      className="w-full h-screen"
+      className="w-full h-screen hidden lg:block"
       plugins={[plugin.current]}
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
