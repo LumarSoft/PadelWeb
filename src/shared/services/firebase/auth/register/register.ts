@@ -1,4 +1,4 @@
-import { userSchema } from "@/shared/services/zod/userSchema";
+import { userRegisterSchema } from "@/shared/services/zod/userSchema";
 import {
   createUserWithEmailAndPassword,
   GoogleAuthProvider,
@@ -7,7 +7,7 @@ import {
 import { auth } from "../../app";
 import { saveDatesInFirestore } from "../../firestore/register/saveDates";
 
-export interface inputDates {
+interface userInputRegister {
   email: string;
   password: string;
   name: string;
@@ -15,46 +15,48 @@ export interface inputDates {
   document: string;
 }
 
-export const registerUser = async (userInput: inputDates) => {
-  const user = userSchema.parse(userInput);
+export const registerUser = async (userInput: userInputRegister) => {
+  const user = userRegisterSchema.parse(userInput);
 
   const { email, password } = user;
 
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
+  try {
+    const result = await createUserWithEmailAndPassword(auth, email, password);
 
-      const dates = {
-        name: userInput.name,
-        uuid: user?.uid,
-        phone: userInput.phoneNumber,
-        doc: userInput.document,
-        email: user?.email,
-        avatar: "",
-      };
+    const user = result.user;
 
-      saveDatesInFirestore(dates);
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      console.log(errorCode, errorMessage);
-    });
+    const accessToken = await user.getIdToken();
+
+    // Falta meter todos los datos del usuario y guardarlos en firestore
+    //Luego retornar email,accesstoken,uid,avatar
+  } catch (error) {
+    const { code, message } = error as { code: string; message: string }; // Asertamos el tipo de error
+
+    console.log(code, message);
+  }
 };
 
 export const registerUserWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      const credential = GoogleAuthProvider.credentialFromResult(result);
-      const token = credential?.accessToken;
-      const user = result.user;
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      const email = error.customData.email;
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      console.log(errorCode, errorMessage, email, credential);
-    });
+
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
+
+    const accessToken = await user.getIdToken();
+
+    const credentials = {
+      email: user?.email,
+      avatar: user?.photoURL,
+      uid: user?.uid,
+      accessToken: accessToken,
+      phone: "",
+    };
+
+    console.log(credentials);
+  } catch (error) {
+    const { code, message } = error as { code: string; message: string };
+
+    console.log(code, message);
+  }
 };

@@ -26,13 +26,16 @@ export const LoginCard = () => {
   const password = useFormInput("");
 
   const handleLogin = async () => {
-    await loginUserWhitEmailAndPassword(email.value, password.value);
-    router.push("/");
+    await loginUserWhitEmailAndPassword({
+      email: email.value,
+      password: password.value,
+    });
+    // router.push("/");
   };
 
   const handleGoogle = async () => {
     await loginUserWithGoogle();
-    router.push("/");
+    // router.push("/");
   };
 
   return (

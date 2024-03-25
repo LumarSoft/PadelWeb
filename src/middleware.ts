@@ -4,8 +4,11 @@ import { getCookie } from "cookies-next";
 export function middleware(request: NextRequest) {
   const storedCredentials = getCookie("credentials", { req: request });
 
+
+  // const urlLogin = "/login";
+
   // if (!storedCredentials) {
-  //   return NextResponse.redirect("/login");
+  //   return NextResponse.redirect(urlLogin);
   // }
 
   return NextResponse.next();

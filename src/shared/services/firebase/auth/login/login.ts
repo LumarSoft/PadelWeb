@@ -6,64 +6,62 @@ import {
 } from "firebase/auth";
 import { auth } from "../../app";
 import { saveCredentialsInCookies } from "@/shared/services/credentialsCookies";
+import { userLoginSchema } from "@/shared/services/zod/userSchema";
+
+interface userInputLogin {
+  email: string;
+  password: string;
+}
 
 export const loginUserWhitEmailAndPassword = async (
-  email: string,
-  password: string
+  userInput: userInputLogin
 ) => {
+  
+  const user = userLoginSchema.parse(userInput);
+  const { email, password } = user;
+
   try {
-    const userCredential = await signInWithEmailAndPassword(
-      auth,
-      email,
-      password
-    );
-    const user = userCredential.user;
+    const result = await signInWithEmailAndPassword(auth, email, password);
+
+    const user = result.user;
 
     const accessToken = await user.getIdToken();
 
-    if (!accessToken) {
-      console.error("Error: No se pudo obtener el token de acceso.");
-      return;
-    }
-
     const credentials = {
-      email: user.email || null,
-      accessToken: accessToken || null,
+      email: user?.email,
+      accessToken: accessToken,
+      uid: user?.uid,
+      avatar: user?.photoURL,
     };
 
-    console.log(user);
-    saveCredentialsInCookies(credentials);
+    console.log(credentials);
   } catch (error) {
-    console.log(error);
+    const { code, message } = error as { code: string; message: string };
+
+    console.log(code, message);
   }
 };
 
 export const loginUserWithGoogle = async () => {
   const provider = new GoogleAuthProvider();
-  signInWithPopup(auth, provider)
-    .then((result) => {
-      const credentialUser = GoogleAuthProvider.credentialFromResult(result);
 
-      if (!credentialUser) {
-        return;
-      }
+  try {
+    const result = await signInWithPopup(auth, provider);
+    const user = result.user;
 
-      const user = result.user;
+    const accessToken = await user.getIdToken();
 
-      const credentials = {
-        email: user.email || null,
-        accessToken: credentialUser.accessToken || null,
-      };
+    const credentials = {
+      email: user?.email,
+      accessToken: accessToken,
+      uid: user?.uid,
+      avatar: user?.photoURL,
+      phone: "",
+    };
 
-      saveCredentialsInCookies(credentials);
-    })
-    .catch((error: AuthError) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      const email = error.customData?.email; // Usando el operador de encadenamiento opcional para evitar errores si 'customData' es nulo
-      const credential = GoogleAuthProvider.credentialFromError(error);
-      console.log(errorCode, errorMessage, email, credential);
-    });
+    console.log(credentials);
+  } catch (error) {
+    const { code, message } = error as { code: string; message: string };
+    console.log(code, message);
+  }
 };
-
-export const loginUserWithFacebook = async () => {};
